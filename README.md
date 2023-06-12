@@ -1,0 +1,1 @@
+a pyhton tool that have a menu were you can pick a number and then the tool scrap informations from the web like the weather or so.
