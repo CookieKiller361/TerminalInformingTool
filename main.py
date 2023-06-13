@@ -1,6 +1,4 @@
-import os
+from menu import menu
 
-def clear_Terminal():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
+main_menu=menu('Test',"test1","Test2","Test3")
+print(f'{type(main_menu)} {main_menu}')
