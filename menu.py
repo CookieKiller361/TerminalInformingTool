@@ -9,10 +9,18 @@ def menu(menu_title,*option_points):
     clear_Terminal()
     print(f'{menu_title}')
     index_number=0
+    index_list=[]
+    
     for options in option_points:
         index_number+=1
+        index_list.append(index_number)
         print(f'{index_number}. {options}')
-    choosen=input('Choose a Number: ')
-    return int(choosen)
-
-#the menu function need a error protection for number out of index 
+    while True:
+        index_list.sort()
+        choosen=input('Choose a Number: ')
+        choosen=int(choosen)
+        if choosen in index_list:
+            return choosen
+        
+        else:
+            print("Number not available, please try a number from the menu!")
