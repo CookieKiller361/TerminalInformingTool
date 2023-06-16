@@ -1,7 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 import lxml
-from menu import menu
+from TerminalInformingTool.menu import menu
+import os
+import pandas as pd
 
 def for_item_in_updater(data,dictionary):
     for items in data:
@@ -47,11 +49,32 @@ def get_weather_informations_time(sublink):
     website=requests.get(mainlink+sublink).text
     soup=BeautifulSoup(website,"lxml")
     #get the informations for the sublink
-    time=soup.find(class_="info-location").find("Aktuelles Wetter in")
-     #returns a dictionary with all the available times
+    temperature=soup.find(class_="delta rtw_temp").text
+    weather_type=soup.find(class_="text--small rtw_weather_txt mb--").text
+    location=soup.find(class_="delta text--white mb--").text
+
+     #scraps the data about the time and temparatur
     time_saved={}
-    time_saved.update({"now":time})
+    time_saved.update({"location":location})
+    time_saved.update({"temperature":temperature})
+    time_saved.update({"Weather Type":weather_type})
+    #returns a dictionary with all the available times
     return time_saved
+
+def sava_data(file_location,filename,data):
+    if os.name('nt'):
+        full_path=file_location+"\\"+filename
+    else:
+        full_path=file_location+"/"+filename
+    if os.path.exists(full_path):
+        #add functionallity later
+        data=pd.read_csv(full_path)
+    else:
+        file=open(full_path,'w')
+        file.write(data)
+        file.close
+
+
 
 
 def setup_location(continents_saved):
@@ -82,6 +105,3 @@ def setup_location(continents_saved):
     time_index = times - 1
     time_key = time_keys_for_index[time_index]
     time_sublink = time_data[time_key]
-
-
- 
