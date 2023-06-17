@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import lxml
-from TerminalInformingTool.menu import menu
+from menu import menu
 import os
 import pandas as pd
 
@@ -19,7 +19,6 @@ def get_weather_informations_continent(sublink):
     #returns a dictionary with all the available continents
     continents_saved={}
     for_item_in_updater(continents,continents_saved)
-    print(continents_saved)
     return continents_saved
 
 def get_weather_informations_country(sublink):
@@ -55,53 +54,56 @@ def get_weather_informations_time(sublink):
 
      #scraps the data about the time and temparatur
     time_saved={}
-    time_saved.update({"location":location})
-    time_saved.update({"temperature":temperature})
+    time_saved.update({"Location":location})
+    time_saved.update({"Temperature":temperature})
     time_saved.update({"Weather Type":weather_type})
     #returns a dictionary with all the available times
     return time_saved
 
-def sava_data(file_location,filename,data):
+#i want to implement a function like that directly in the setup_locaten function
+'''def sava_data_create(file_location,filename,data):
+    #checks witch file system is used
     if os.name('nt'):
         full_path=file_location+"\\"+filename
     else:
         full_path=file_location+"/"+filename
+    #checks if the file exists
     if os.path.exists(full_path):
         #add functionallity later
         data=pd.read_csv(full_path)
     else:
         file=open(full_path,'w')
         file.write(data)
-        file.close
+        file.close'''
 
 
 
 
 def setup_location(continents_saved):
-    continents=menu("select Continent",*continents_saved.keys())
-    #if this for function work use the keys_to_list function
+    #setup for the Continents data
+    continents=menu("select Continent",True,*continents_saved.keys())
     continents_keys_for_index=list(continents_saved.keys())
     continent_index = continents - 1
     continent_key = continents_keys_for_index[continent_index]
     continent_sublink = continents_saved[continent_key]
-    
+    #setup for the country data
     country_data=get_weather_informations_country(continent_sublink)
-    countries=menu("select country",*country_data.keys())
+    countries=menu("select country",True,*country_data.keys())
     country_keys_for_index=list(country_data.keys())
     country_index = countries - 1
     country_key = country_keys_for_index[country_index]
     country_sublink = country_data[country_key]
-    
+    #setup for the city data
     city_data=get_weather_informations_city(country_sublink)
-    citys=menu("select City",*city_data.keys())
+    citys=menu("select City",True,*city_data.keys())
     city_keys_for_index=list(city_data.keys())
     city_index = citys - 1
     city_key = city_keys_for_index[city_index]
     city_sublink = city_data[city_key]
-
+    #setup for the time data
     time_data=get_weather_informations_time(city_sublink)
-    times=menu("select the Time you want the Data for",*time_data.keys())
-    time_keys_for_index=list(time_data.keys())
-    time_index = times - 1
-    time_key = time_keys_for_index[time_index]
-    time_sublink = time_data[time_key]
+    #check if in progress if that makes sense, cause i changed the 
+    # data from selecting time point to some importent informations
+    times=menu("Weather data",False,time_data)
+    
+    return city_sublink
