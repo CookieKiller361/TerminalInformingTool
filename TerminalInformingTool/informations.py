@@ -2,8 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import lxml
 from menu import menu
-import os
-import pandas as pd
+
 
 def for_item_in_updater(data,dictionary):
     for items in data:
@@ -60,25 +59,6 @@ def get_weather_informations_time(sublink):
     #returns a dictionary with all the available times
     return time_saved
 
-#i want to implement a function like that directly in the setup_locaten function
-'''def sava_data_create(file_location,filename,data):
-    #checks witch file system is used
-    if os.name('nt'):
-        full_path=file_location+"\\"+filename
-    else:
-        full_path=file_location+"/"+filename
-    #checks if the file exists
-    if os.path.exists(full_path):
-        #add functionallity later
-        data=pd.read_csv(full_path)
-    else:
-        file=open(full_path,'w')
-        file.write(data)
-        file.close'''
-
-
-
-
 def setup_location(continents_saved):
     #setup for the Continents data
     continents=menu("select Continent",True,*continents_saved.keys())
@@ -106,4 +86,7 @@ def setup_location(continents_saved):
     # data from selecting time point to some importent informations
     times=menu("Weather data",False,time_data)
     
-    return city_sublink
+    #dont return this save it in the settings_data file
+    data_finished_setup=city_sublink
+    
+     
