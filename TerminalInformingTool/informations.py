@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import lxml
 from menu import menu
+import file_handeling
+
 
 
 def for_item_in_updater(data,dictionary):
@@ -87,6 +89,7 @@ def setup_location(continents_saved):
     times=menu("Weather data",False,time_data)
     
     #dont return this save it in the settings_data file
-    data_finished_setup=city_sublink
     
-     
+    data_finished_setup=file_handeling.convert_to_dictionary("setup_weather",city_sublink)
+
+    file_handeling.add_data_with_checks("/TerminalinformingTool/","setting_saved.csv",'data_from',data_finished_setup)
