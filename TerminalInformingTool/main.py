@@ -1,12 +1,11 @@
 from menu import menu
-import informations as info
+import weather_informations as info
 import file_handeling as fh
 
 main_menu=menu('Main',True,"Weather","Test2","Test3")
 
 if main_menu==1:
     weather_data=info.get_weather_informations_continent("/europa/EU.html")
-    #Load Weather loads the saved Weather data if there not over 30 minutes old, if there over 30 minutes old scrap the data based on the setting, from the website
     Weather_menu=menu('Weather',True,"Refresh Data","Setup Location","Load Weather")
     if Weather_menu==1:
         pass
