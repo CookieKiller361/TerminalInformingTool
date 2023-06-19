@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import lxml
 from menu import menu
-import file_handeling
+import file_handeling as fh
 
 
 
@@ -90,6 +90,17 @@ def setup_location(continents_saved):
     
     #dont return this save it in the settings_data file
     
-    data_finished_setup=file_handeling.convert_to_dictionary("setup_weather",city_sublink)
+    data_finished_setup=fh.convert_to_dictionary("setup_weather",city_sublink)
 
-    file_handeling.add_data_with_checks("/TerminalinformingTool/","setting_saved.csv",'data_from',data_finished_setup)
+    fh.add_data_with_checks("/TerminalinformingTool/","setting_saved.csv",'data_from',data_finished_setup)
+
+def load_weather(filepath_for_csv_file,data_from_name):
+    if_exist=fh.check_if_exist(filepath_for_csv_file)
+    if if_exist==True:
+        if_exist_in_file=fh.if_in_csv(filepath_for_csv_file,"data_from",data_from_name)
+        if if_exist_in_file:
+            return fh.search_saved_data(filepath_for_csv_file,"data_from",data_from_name)
+        else:
+            return "\ndata_item not in csv file"
+    elif if_exist==False:
+        return False

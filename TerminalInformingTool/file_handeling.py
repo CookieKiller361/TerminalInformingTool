@@ -47,6 +47,13 @@ def search_saved_data(filepath, column_name, search_value):
     #returns the data from the next columm
     return next_column_value
 
+def if_in_csv(filepath,columm_name,search_value):
+    search_for=search_saved_data(filepath,columm_name,search_value)
+    if search_for  !=None:
+        return True
+    else:
+        return False
+
 
 def replace_in_csv(filepath, columm_name, search_value, replace_data):
     # CSV-Datei einlesen
